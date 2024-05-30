@@ -32,8 +32,10 @@ namespace Randomly.content.npcs.overrideBosses
 		}
         public override void SetStaticDefaults()
         {
-            texBody = ModContent.Request<Texture2D>("Randomly/content/npcs/overrideBosses/OverrideBoss_KingSlime", AssetRequestMode.AsyncLoad);
-            texCrown = ModContent.Request<Texture2D>("Randomly/content/npcs/overrideBosses/Gores/OverrideBoss_KingSlimeCrown", AssetRequestMode.AsyncLoad);
+            if (Main.netMode != NetmodeID.Server){
+				texBody = ModContent.Request<Texture2D>("Randomly/content/npcs/overrideBosses/OverrideBoss_KingSlime", AssetRequestMode.AsyncLoad);
+				texCrown = ModContent.Request<Texture2D>("Randomly/content/npcs/overrideBosses/Gores/OverrideBoss_KingSlimeCrown", AssetRequestMode.AsyncLoad);
+			}
 			ChildSafety.SafeGore[Mod.Find<ModGore>("OverrideBoss_KingSlimeCrown").Type] = true;
         }
         public override void SetDefaults(NPC entity)
