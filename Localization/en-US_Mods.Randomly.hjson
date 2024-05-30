@@ -1,0 +1,131 @@
+Items: {
+	Sword_PickledCucumber: {
+		DisplayName: 酸黄瓜
+		Tooltip: 一个非常酸的黄瓜。
+	}
+
+	Block_Cucumber: {
+		DisplayName: 黄瓜肉
+		Tooltip: 位于黄瓜之星内部的物质。
+	}
+
+	Banner_FloatCucumber: {
+		DisplayName: 飞天黄瓜片旗
+		Tooltip: 附近的玩家针对以下情况获得奖励：飞天大黄瓜片儿
+	}
+
+	Wall_Cucumber: {
+		DisplayName: 黄瓜墙
+		Tooltip: 距离你比较远的黄瓜肉。
+	}
+
+	Block_CucumberSurface: {
+		DisplayName: 黄瓜皮
+		Tooltip: 很黄的瓜皮
+	}
+
+	Summon_FrostFlower: {
+		DisplayName: 霜凝之实
+		Tooltip:
+			'''
+			不消耗
+			召唤冰霜花灵
+			'''
+	}
+
+	Bossbag_FrostFlower: {
+		DisplayName: 宝藏袋（冰霜花灵）
+		Tooltip: 右键点击可打开
+	}
+
+	Food_FreezeFlowerPlant: {
+		DisplayName: 冰晶果
+		Tooltip: 很好吃，唯一的缺点是有点费牙齿
+		RestoreLifeText: "100"
+	}
+
+	Material_SoulyIce: {
+		DisplayName: 流云冰晶
+		Tooltip: 冰霜花灵的核心碎块，霜花的意志在晶体表面形成流云一般的色彩
+	}
+
+	Accessorie_SnowFlower: {
+		DisplayName: 流云晶兰
+		Tooltip: 对冷冻免疫
+	}
+
+	Relic_FrostFlower: {
+		DisplayName: 冰霜花灵圣物
+		Tooltip: ""
+	}
+
+	Trophy_FrostFlower: {
+		DisplayName: 冰霜花灵纪念章
+		Tooltip: ""
+	}
+
+	Vanity_FrostFlowerMask: {
+		DisplayName: 冰霜花灵面具
+		Tooltip: ""
+	}
+
+	Pet_FrostFlower_Item: {
+		DisplayName: 冻糖球
+		Tooltip:
+			'''
+			召唤小冰精
+			“如同梦幻般的甜度”
+			'''
+	}
+
+	Magic_IcyBurst: {
+		DisplayName: 冰花散
+		Tooltip: 让寒冰之花在空中绽放
+	}
+
+	Yoyo_IceYoyo: {
+		DisplayName: 破碎寒冰
+		Tooltip: 小心易碎
+	}
+}
+
+NPCs: {
+	Enemy_FloatCucumber.DisplayName: 飞天大黄瓜片儿
+
+	Boss_FrostFlower: {
+		DisplayName: 冰霜花灵
+		BossChecklistIntegration.SpawnInfo: 在苔原使用[i:Randomly/Summon_FrostFlower]召唤
+	}
+
+	Boss_SpacePiece.DisplayName: 宇宙碎片
+}
+
+Biomes: {
+	Biome_CucumberStar: {
+		DisplayName: 黄瓜之星
+		TownNPCDialogueName: 黄瓜之星
+	}
+}
+
+Projectiles: {
+	BossPros_FrostFlower_IceNeedle.DisplayName: 霜棱
+	Pet_FrostFlower_Projectile.DisplayName: 小冰精
+	MagicPros_IcyBurst.DisplayName: 冰刺源
+	MagicPros_IcyBurst_BurstOut.DisplayName: 冰刺
+	YoyoPros_IceYoyo.DisplayName: 破碎寒冰
+	YoyoPros_IceYoyo_BreakPiece.DisplayName: 寒冰碎块
+	BossPros_KingSlime_Meowmere.DisplayName: 小猫猫动能冲击
+	BossPros_SpacePiece_MusicSign.DisplayName: Boss Pros_ Space Piece_ Music Sign
+	BossPros_SpacePiece_Spike.DisplayName: Boss Pros_ Space Piece_ Spike
+	BossPros_SpacePiece_MusicSignRed.DisplayName: Boss Pros_ Space Piece_ Music Sign Red
+	BossPros_SpacePiece_MusicSignYellow.DisplayName: Boss Pros_ Space Piece_ Music Sign Yellow
+	BossPros_SpacePiece_SpikeRed.DisplayName: Boss Pros_ Space Piece_ Spike Red
+	BossPros_SpacePiece_SpikeYellow.DisplayName: Boss Pros_ Space Piece_ Spike Yellow
+}
+
+Buffs: {
+	Pet_FrostFlower_Buff: {
+		DisplayName: 小冰精
+		Description: 可爱冻人
+	}
+}
