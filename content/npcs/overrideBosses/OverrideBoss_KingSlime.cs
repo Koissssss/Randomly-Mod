@@ -22,7 +22,6 @@ namespace Randomly.content.npcs.overrideBosses
 			Jump,
 			Fall
 		}
-
 		private static Asset<Texture2D> texBody;
 		private static Asset<Texture2D> texCrown;
 		private const int SPRITEWIDTH = 98;
@@ -35,8 +34,8 @@ namespace Randomly.content.npcs.overrideBosses
             if (Main.netMode != NetmodeID.Server){
 				texBody = ModContent.Request<Texture2D>("Randomly/content/npcs/overrideBosses/OverrideBoss_KingSlime", AssetRequestMode.AsyncLoad);
 				texCrown = ModContent.Request<Texture2D>("Randomly/content/npcs/overrideBosses/Gores/OverrideBoss_KingSlimeCrown", AssetRequestMode.AsyncLoad);
+				ChildSafety.SafeGore[Mod.Find<ModGore>("OverrideBoss_KingSlimeCrown").Type] = true;
 			}
-			ChildSafety.SafeGore[Mod.Find<ModGore>("OverrideBoss_KingSlimeCrown").Type] = true;
         }
         public override void SetDefaults(NPC entity)
         {
