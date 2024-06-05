@@ -115,12 +115,12 @@ Projectiles: {
 	YoyoPros_IceYoyo.DisplayName: 破碎寒冰
 	YoyoPros_IceYoyo_BreakPiece.DisplayName: 寒冰碎块
 	BossPros_KingSlime_Meowmere.DisplayName: 小猫猫动能冲击
-	BossPros_SpacePiece_MusicSign.DisplayName: Boss Pros_ Space Piece_ Music Sign
-	BossPros_SpacePiece_Spike.DisplayName: Boss Pros_ Space Piece_ Spike
-	BossPros_SpacePiece_MusicSignRed.DisplayName: Boss Pros_ Space Piece_ Music Sign Red
-	BossPros_SpacePiece_MusicSignYellow.DisplayName: Boss Pros_ Space Piece_ Music Sign Yellow
-	BossPros_SpacePiece_SpikeRed.DisplayName: Boss Pros_ Space Piece_ Spike Red
-	BossPros_SpacePiece_SpikeYellow.DisplayName: Boss Pros_ Space Piece_ Spike Yellow
+	BossPros_SpacePiece_MusicSignRed.DisplayName: 红色音符
+	BossPros_SpacePiece_MusicSignYellow.DisplayName: 黄色音符
+	BossPros_SpacePiece_MusicSignBlue.DisplayName: 蓝色音符
+	BossPros_SpacePiece_SpikeRed.DisplayName: 红色碎片
+	BossPros_SpacePiece_SpikeYellow.DisplayName: 黄色碎片
+	BossPros_SpacePiece_SpikeBlue.DisplayName: 蓝色碎片
 }
 
 Buffs: {

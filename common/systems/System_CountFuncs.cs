@@ -3,8 +3,34 @@ using Microsoft.Xna.Framework;
 using Terraria;
 
 namespace Randomly{
+    public class Cnt{
+        public static int Div(float num1, float num2){
+            int k;
+            k = (int)(Math.Abs(num1) / num2) + 1;
+            num1 += k * num2;
+            return (int)(num1 / num2) - k;
+        }
+    }
     public class Vec2{
-        public static Vector2 CurveType1(float lerp, Vector2[]points){
+        
+        /// <summary>
+        /// 返回一个边数为<c>Pnum</c>，顺时针旋转<c>baseRotation</c>角度的多边形上的一点，
+        /// <br/>其中<c>Dnum</c>每条边上的点数（两个顶点算作一个点），<c>Index</c>代表目标点是所有点中第几个，
+        /// <br/><c>r</c>代表顶点到多边形中心的距离
+        /// </summary>
+        public static Vector2 Polygon_Type1(float baseRotation, int Pnum, int Dnum, float Index, float r){
+            int lineIndex = Cnt.Div(Index, Dnum);
+            float lineLerp = Index / Dnum - lineIndex;
+            float perRot = (float)(2 * Math.PI / Pnum);
+            Vector2 rVec2 = new Vector2(r, 0);
+            Vector2 BaseVec2 = Vector2.Lerp(rVec2, rVec2.RotatedBy(perRot), lineLerp);
+            return BaseVec2.RotatedBy(baseRotation * Math.PI / 180 + lineIndex * perRot);
+        }
+        /// <summary>
+        /// 产生一个按顺序经过所有<c>points</c>点的贝塞尔曲线，
+        /// <br/>其中<c>lerp = 0</c>代表曲线起点，<c>lerp = 1</c>代表曲线终点.
+        /// </summary>
+        public static Vector2 CurveType1_Bezier(float lerp, Vector2[]points){
             if(lerp < 0)lerp = 0; if(lerp > 1)lerp = 1;
             float midlerp = lerp * (points.Length - 1) % 1;
             int index = (int)(lerp * (points.Length - 1));

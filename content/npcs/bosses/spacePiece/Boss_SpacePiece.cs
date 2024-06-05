@@ -177,10 +177,14 @@ namespace Randomly.content.npcs.bosses.spacePiece
         private const int TYPE_normalmove = 0;
         private const int TYPE_redheart = 1;
         private const int TYPE_yellowheart = 2;
+        private const int TYPE_blueheart = 3;
+        private const int TYPE_pinkheart = 4;
         private bool actionInit = false;
         private Vector2[][]tStagePos = [new Vector2[5], new Vector2[5], new Vector2[5], new Vector2[5], new Vector2[5], new Vector2[5], new Vector2[5], new Vector2[5], new Vector2[5], new Vector2[5]];
         private float[]dirset = new float[6];
         private float[]dirdset = new float[6];
+        private float dirDelta;
+        private int dirRot;
         public override void AI()
         {
             NPC.TargetClosest(true);
@@ -191,7 +195,7 @@ namespace Randomly.content.npcs.bosses.spacePiece
                 if(Main.netMode != NetmodeID.MultiplayerClient){
                     timeLoop++;
                     if(timeLoop == 120){
-                        performType = Main.rand.Next(2) + 1;
+                        performType = Main.rand.Next(3) + 1;
                         actionInit = true;
                     }
                 }
@@ -230,8 +234,8 @@ namespace Randomly.content.npcs.bosses.spacePiece
                     if(timeLoop > TIMESTARTSHOOT && timeLoop <= TIMESTARTSHOOT + 40){
                         int timeSt = (int)timeLoop - TIMESTARTSHOOT;
                         for(int i = 0; i < 10; i++){
-                            Vector2 Pos = drawShoutPos + Vec2.CurveType1(timeSt / 40f, [tStagePos[i][0], tStagePos[i][1], tStagePos[i][2], tStagePos[i][3], tStagePos[i][4]]);
-                            Vector2 PosNext = drawShoutPos + Vec2.CurveType1((timeSt - 0.1f) / 40f, [tStagePos[i][0], tStagePos[i][1], tStagePos[i][2], tStagePos[i][3], tStagePos[i][4]]);
+                            Vector2 Pos = drawShoutPos + Vec2.CurveType1_Bezier(timeSt / 40f, [tStagePos[i][0], tStagePos[i][1], tStagePos[i][2], tStagePos[i][3], tStagePos[i][4]]);
+                            Vector2 PosNext = drawShoutPos + Vec2.CurveType1_Bezier((timeSt - 0.1f) / 40f, [tStagePos[i][0], tStagePos[i][1], tStagePos[i][2], tStagePos[i][3], tStagePos[i][4]]);
                             CBSpikeRed(Pos, (Pos - PosNext).ToRotation(), 1 - timeSt/60f);
                         }
                     }
@@ -286,6 +290,50 @@ namespace Randomly.content.npcs.bosses.spacePiece
                 }
             }
         //------------------------------------//
+            else if(performType == TYPE_blueheart){
+                if(Main.netMode != NetmodeID.MultiplayerClient){
+                    if(actionInit){
+                        timeLoop = 0;
+                        actionInit = false;
+                        NPC.netUpdate = true;
+                    }
+                }
+                if(timeLoop == 0){
+                    drawShoutPos = NPC.Center - new Vector2(0, 100);
+                    drawShout = 120;
+                    if(Main.netMode != NetmodeID.MultiplayerClient){
+                        dirDelta = Main.rand.Next(360);
+                        dirRot = -1;// Main.rand.Next(2) * 2 - 1;
+                    }
+                }
+                if(Main.netMode != NetmodeID.MultiplayerClient){
+                    const int TIMESCALE = 30;
+                    if(timeLoop == TIMESCALE){
+                        for(int j = 0; j < 16; j++){
+                            Vector2 Pos = NPC.Center + Vec2.Polygon_Type1(dirDelta, 4, 4, j, 100) - new Vector2(0, 100);
+                            CBMusicSignBlue(Pos);
+                        }
+                    }
+                    const int TIMESTARTSHOOT = 60;
+                    if(timeLoop > TIMESTARTSHOOT && timeLoop <= TIMESTARTSHOOT + 90){
+                        int timeSt = (int)timeLoop - TIMESTARTSHOOT;
+                        for(int j = 0; j < 16; j++) {
+                            Vector2 Pos = NPC.Center + Vec2.Polygon_Type1(dirDelta, 4, 4, (float)(j + dirRot * timeSt * 0.03), 100 + timeSt * 15) - new Vector2(0, 100);
+                            Vector2 PosNext = NPC.Center + Vec2.Polygon_Type1(dirDelta, 4, 4, (float)(j + dirRot * (timeSt + 1) * 0.03), 100 + (timeSt + 1) * 15)  - new Vector2(0, 100);
+                            CBSpikeBlue(Pos, (PosNext - Pos).ToRotation(), 1 - timeSt/180f);
+                        }
+                    }
+                }
+                const int TIMEEND = 200;
+                if(timeLoop == TIMEEND){
+                    performType = TYPE_normalmove;
+                    timeLoop = 0;
+                }
+                else{
+                    timeLoop++;
+                }
+                destinationPos = Vector2.Lerp(NPC.Center, drawShoutPos + new Vector2(0, 100), 0.1f) + NPC.velocity * 0.95f;
+            }
 
 
             //Move To Destination Pos
@@ -314,26 +362,31 @@ namespace Randomly.content.npcs.bosses.spacePiece
         private int CBMusicSignRed(Vector2 position){
             IEntitySource entitySource = NPC.GetSource_FromAI();
             int type = ModContent.ProjectileType<BossPros_SpacePiece_MusicSignRed>();
-            return Projectile.NewProjectile(entitySource, position, new Vector2(0, 0), type, 0, 0f);
+            return Projectile.NewProjectile(entitySource, position, new Vector2(0, 0), type, NPC.damage/8, 0f);
         }
         private int CBSpikeRed(Vector2 position, float direction, float scale){
             IEntitySource entitySource = NPC.GetSource_FromAI();
             int type = ModContent.ProjectileType<BossPros_SpacePiece_SpikeRed>();
-            return Projectile.NewProjectile(entitySource, position, new Vector2(0, 0), type, NPC.damage/4, 0f, -1, direction, scale);
+            return Projectile.NewProjectile(entitySource, position, new Vector2(0, 0), type, NPC.damage/8, 0f, -1, direction, scale);
         }
 
 
         private int CBMusicSignYellow(float reLen, float reDir){
             IEntitySource entitySource = NPC.GetSource_FromAI();
             int type = ModContent.ProjectileType<BossPros_SpacePiece_MusicSignYellow>();
-            return Projectile.NewProjectile(entitySource, NPC.Center + Vec2.LengthdirDeg(reLen, reDir) - new Vector2(0, 100), new Vector2(0, 0), type, NPC.damage/4, 0f, -1, reLen, reDir, NPC.whoAmI);
-            /*
-            Projectile mSign = Main.projectile[bul];
-            BossPros_SpacePiece_MusicSignYellow objNeedle = (BossPros_SpacePiece_MusicSignYellow)mSign.ModProjectile;
-            objNeedle.centerTarget = NPC;
-            objNeedle.reVec2 = 
-            return bul;
-            */
+            return Projectile.NewProjectile(entitySource, NPC.Center + Vec2.LengthdirDeg(reLen, reDir) - new Vector2(0, 100), new Vector2(0, 0), type, NPC.damage/8, 0f, -1, reLen, reDir, NPC.whoAmI);
+        }
+
+
+        private int CBMusicSignBlue(Vector2 position){
+            IEntitySource entitySource = NPC.GetSource_FromAI();
+            int type = ModContent.ProjectileType<BossPros_SpacePiece_MusicSignBlue>();
+            return Projectile.NewProjectile(entitySource, position, new Vector2(0, 0), type, NPC.damage/8, 0f);
+        }
+        private int CBSpikeBlue(Vector2 position, float direction, float scale){
+            IEntitySource entitySource = NPC.GetSource_FromAI();
+            int type = ModContent.ProjectileType<BossPros_SpacePiece_SpikeBlue>();
+            return Projectile.NewProjectile(entitySource, position, new Vector2(0, 0), type, NPC.damage/8, 0f, -1, direction, scale);
         }
 
 

@@ -10,24 +10,27 @@ using Terraria.ModLoader;
 
 namespace Randomly.content.projectiles.bossPros.spacePiece
 {
-	public class BossPros_SpacePiece_SpikeRed : ModProjectile
+	public class BossPros_SpacePiece_MusicSignBlue : ModProjectile
 	{
+		public bool FadedIn {
+			get => Projectile.localAI[0] == 1f;
+			set => Projectile.localAI[0] = value ? 1f : 0f;
+		}
+
 		public override void SetStaticDefaults() {
 			Main.projFrames[Type] = 1;
 		}
 
 		public override void SetDefaults() {
-			Projectile.width = 30;
-			Projectile.height = 30;
-			Projectile.timeLeft = 30;
+			Projectile.width = 20;
+			Projectile.height = 20;
+			Projectile.alpha = 255;
+			Projectile.timeLeft = 100;
 			Projectile.penetrate = -1;
-			Projectile.friendly = false;
-			Projectile.hostile = true;
 			Projectile.tileCollide = false;
 			Projectile.ignoreWater = true;
 			Projectile.netImportant = true;
 			Projectile.aiStyle = -1;
-			CooldownSlot = ImmunityCooldownID.Bosses; // use the boss immunity cooldown counter, to prevent ignoring boss attacks by taking damage from other sources
 		}
 
 		public override Color? GetAlpha(Color lightColor) {
@@ -39,18 +42,22 @@ namespace Randomly.content.projectiles.bossPros.spacePiece
 		private void FadeInAndOut() {
 			// Fade in (we have Projectile.alpha = 255 in SetDefaults which means it spawns transparent)
 			int fadeSpeed = 10;
-			if (Projectile.timeLeft < 255f / fadeSpeed) {
+			if (!FadedIn && Projectile.alpha > 0) {
+				Projectile.alpha -= fadeSpeed;
+				if (Projectile.alpha < 0) {
+					FadedIn = true;
+					Projectile.alpha = 0;
+				}
+			}
+			else if (FadedIn && Projectile.timeLeft < 255f / fadeSpeed) {
 				// Fade out so it aligns with the projectile despawning
 				Projectile.alpha += fadeSpeed;
-				Projectile.hostile = false;
 				if (Projectile.alpha > 255) {
 					Projectile.alpha = 255;
 				}
 			}
 		}
 		public override void AI() {
-			Projectile.rotation = Projectile.ai[0];
-			Projectile.scale = Projectile.ai[1];
 			FadeInAndOut();
 		}
 		public override bool PreDraw(ref Color lightColor) {

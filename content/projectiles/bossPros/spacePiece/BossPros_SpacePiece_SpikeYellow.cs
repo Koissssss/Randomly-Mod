@@ -43,6 +43,7 @@ namespace Randomly.content.projectiles.bossPros.spacePiece
 			if (Projectile.timeLeft < 255f / fadeSpeed) {
 				// Fade out so it aligns with the projectile despawning
 				Projectile.alpha += fadeSpeed;
+				Projectile.hostile = false;
 				if (Projectile.alpha > 255) {
 					Projectile.alpha = 255;
 				}

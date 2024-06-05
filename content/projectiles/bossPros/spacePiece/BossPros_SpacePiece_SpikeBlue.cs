@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace Randomly.content.projectiles.bossPros.spacePiece
 {
-	public class BossPros_SpacePiece_SpikeRed : ModProjectile
+	public class BossPros_SpacePiece_SpikeBlue : ModProjectile
 	{
 		public override void SetStaticDefaults() {
 			Main.projFrames[Type] = 1;
